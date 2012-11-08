@@ -28,13 +28,15 @@
 	a, a:link, a:visited {color:#fff;text-decoration: none;border-bottom:1px dashed #3F6558;-webkit-transition:border-color 0.3s ease-in;}
 	a:hover, a:focus {border-bottom:1px dashed #fff;}
 	h1, h2, h3 {text-align:center; line-height:1.2;}
-	.heading {font-family:'Pacifico', sans-serif; text-shadow:0.1em 0.1em 2px #3F6558;}
+	.heading {margin-top:0.25em;font-family:'Pacifico', sans-serif; text-shadow:0.1em 0.1em 2px #3F6558;}
 	.subheading {font-weight:normal;}
+	.button {margin:2em 0;}
 	.button a {background:#3F6558;padding:0.4em 3.5em 0.4em 1em;border:none;border-radius:10px;position:relative;}
 	.download {margin-left:0.75em;border:5px solid #fff;border-radius:10px;width:2em;height:60%;position:absolute;box-sizing:border-box;}
 	.download:before {display:block;content:'';position:absolute;top:0;left:50%;margin-left:-8px;border:8px solid #fff;}
 	.download:after {display:block;content:'';position:absolute;top:30%;left:50%;margin-left:-20px;border-top:20px solid #fff;border-left:20px solid transparent;border-right:20px solid transparent;}
 	.clearfix {clear:both;}
+	.space {margin:5em 0;}
 	.devices {margin:0 auto;text-align:center;}
 	.device {display:inline-block; margin:10px 20px; text-align:center;}
 	.iphone .case {height:280px; width:138px; border-radius:20px; border:1px solid #3F6558; margin:auto;background:#3F6558;}
@@ -57,7 +59,7 @@
 </head>
 <body>
 <h1 class="heading">Responsive Text</h1>
-<h2 class="subheading">A jQuery plugin to set font sizes responsively based on the width of the viewport. Use responsiveText.js to have scalable headlines, build <a href="https://github.com/ghepting/fitTables">responsive tables</a> and more!</h2>
+<h2 class="subheading">A jQuery plugin to set font sizes responsively based on its' container width. Use responsiveText.js to have scalable headlines, build <a href="https://github.com/ghepting/fitTables">responsive tables</a> and more!</h2>
 <h3 class="button"><a href="https://github.com/ghepting/responsiveText">Download on Github <span class="download"></span></a></h3>
 <div class="devices">
 	<div class="thunderbolt device">
@@ -104,6 +106,7 @@
 		</div>
 	</div>
 </div>
-<div class="clearfix"></div>
+<div class="clearfix space"></div>
+<p>Another open-source experiment by <a href="http://garyhepting.com/">Gary Hepting</a></p>
 </body>
 </html>

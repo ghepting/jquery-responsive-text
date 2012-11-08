@@ -11,13 +11,13 @@
 	$.fn.responsiveText = function(options) {
     	var settings = {
 			'agressiveness': options.agressiveness || 10,
-			'minSize': options.minSize || options.minSize || Number.NEGATIVE_INFINITY,
-			'maxSize': options.maxSize || options.maxSize || Number.POSITIVE_INFINITY
+			'minSize': options.minSize || Number.NEGATIVE_INFINITY,
+			'maxSize': options.maxSize || Number.POSITIVE_INFINITY
 		}
 		return this.each(function(){
 			var elem = $(this);
 			var resizeText = function() {
-				elem.css('font-size', Math.floor(Math.floor(Math.max(Math.min(elem.width() / (settings.agressiveness), parseFloat(settings.maxSize)), parseFloat(settings.minSize)))));
+				elem.css('font-size', Math.floor(Math.max(Math.min(elem.width() / (settings.agressiveness), parseFloat(settings.maxSize)), parseFloat(settings.minSize))));
 			};
 			resizeText();
 			$(window).on('resize', resizeText);

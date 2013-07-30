@@ -65,7 +65,8 @@
       $(this.el).css({
         'overflow': 'hidden',
         'text-overflow': 'ellipsis',
-        'white-space': 'nowrap'
+        'white-space': 'nowrap',
+        'cursor': 'e-resize'
       });
       return $(this.el).hover((function() {
         _this.difference = _this.el.scrollWidth - $(_this.el).width();

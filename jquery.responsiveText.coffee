@@ -19,8 +19,8 @@ class ResponsiveText
     @compression = $(@el).data('compression') || 10
     @minFontSize = $(@el).data('min') || Number.NEGATIVE_INFINITY
     @maxFontSize = $(@el).data('max') || Number.POSITIVE_INFINITY
-    @scrollable  = $(@el).data('scrollable') || false
-    @scrollSpeed  = $(@el).data('scrollspeed') || 650
+    @scrollable = $(@el).data('scrollable') || false
+    @scrollSpeed = $(@el).data('scrollspeed') || 650
     @scrollReset = $(@el).data('scrollreset') || 200
     @init()
 
@@ -49,6 +49,7 @@ class ResponsiveText
       'overflow': 'hidden'
       'text-overflow': 'ellipsis'
       'white-space': 'nowrap'
+      'cursor': 'e-resize'
     $(@el).hover (=>
       @difference = @el.scrollWidth - $(@el).width()
       @scrollSpeed = @difference if @difference > @scrollSpeed

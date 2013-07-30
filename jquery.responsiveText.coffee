@@ -1,32 +1,55 @@
 ###
  *
- *  jQuery ResponsiveText by Gary Hepting - https://github.com/ghepting/responsiveText
+ *  jQuery ResponsiveText by Gary Hepting - https://github.com/ghepting/jquery-responsive-text
  *  
- *  Open source under the BSD License. 
+ *  Open source under the MIT License. 
  *
  *  Copyright © 2013 Gary Hepting. All rights reserved.
  *
 ###
 
+delayedAdjust = []
+responsiveTextIndex = 0
+
+class ResponsiveText
+
+  constructor: (el) ->
+    @index = responsiveTextIndex++
+    @el = el
+    @compression = $(@el).data('compression') || 10
+    @minFontSize = $(@el).data('min') || Number.NEGATIVE_INFINITY
+    @maxFontSize = $(@el).data('max') || Number.POSITIVE_INFINITY
+    @init()
+
+  init: ->
+    $(@el).wrapInner('<span class="responsiveText-wrapper" />')
+    @adjustOnLoad()
+    @adjustOnResize()
+
+  resizeText: ->
+    $(@el).css "font-size", Math.floor( Math.max( Math.min( ($(@el).width() / @compression), @maxFontSize ), @minFontSize ) )
+
+  adjustOnLoad: ->
+    $(window).on 'load', =>
+      @resizeText()
+
+  adjustOnResize: ->
+    $(window).on 'resize', =>
+      clearTimeout(delayedAdjust[@index])
+      delayedAdjust[@index] = setTimeout(=>
+        @resizeText()
+      , 50)
+
+
 (($) ->
-  elems = []
+
+  responsiveTextElements = []
+
   $.fn.responsiveText = (options) ->
-    settings =
-      compressor: options.compressor or 10
-      minSize: options.minSize or Number.NEGATIVE_INFINITY
-      maxSize: options.maxSize or Number.POSITIVE_INFINITY
 
     @each ->
-    	elem = $(this)
-    	elem.attr('data-compression',settings.compressor)
-    	elem.attr('data-min',settings.minSize)
-    	elem.attr('data-max',settings.maxSize)
-    	elem.css "font-size", Math.floor(Math.max(Math.min(elem.width() / (settings.compressor), parseFloat(settings.maxSize)), parseFloat(settings.minSize)))
-    	elems.push elem
+      responsiveTextElements.push( new ResponsiveText(@) )
 
-  $(window).on "resize", ->
-   	$(elems).each ->
-   		elem = $(this)
-   		elem.css "font-size", Math.floor(Math.max(Math.min(elem.width() / (elem.attr('data-compression')), parseFloat(elem.attr('data-max'))), parseFloat(elem.attr('data-min'))))
+      # $el.css "font-size", Math.floor(Math.max(Math.min($el.width() / ($el.data('compression')), parseFloat($el.data('max'))), parseFloat($el.data('min'))))
 
 ) jQuery

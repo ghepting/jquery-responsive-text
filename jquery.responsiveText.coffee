@@ -38,7 +38,7 @@ class ResponsiveText
       clearTimeout(delayedAdjust[@index])
       delayedAdjust[@index] = setTimeout(=>
         @resizeText()
-      , 50)
+      , 20)
 
 
 (($) ->

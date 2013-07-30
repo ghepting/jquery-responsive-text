@@ -50,7 +50,7 @@
         clearTimeout(delayedAdjust[_this.index]);
         return delayedAdjust[_this.index] = setTimeout(function() {
           return _this.resizeText();
-        }, 50);
+        }, 20);
       });
     };
 

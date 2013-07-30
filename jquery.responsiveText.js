@@ -24,13 +24,19 @@
       this.compression = $(this.el).data('compression') || 10;
       this.minFontSize = $(this.el).data('min') || Number.NEGATIVE_INFINITY;
       this.maxFontSize = $(this.el).data('max') || Number.POSITIVE_INFINITY;
+      this.scrollable = $(this.el).data('scrollable') || false;
+      this.scrollSpeed = $(this.el).data('scrollspeed') || 650;
+      this.scrollReset = $(this.el).data('scrollreset') || 200;
       this.init();
     }
 
     ResponsiveText.prototype.init = function() {
       $(this.el).wrapInner('<span class="responsiveText-wrapper" />');
       this.adjustOnLoad();
-      return this.adjustOnResize();
+      this.adjustOnResize();
+      if (this.scrollable) {
+        return this.scrollOnHover();
+      }
     };
 
     ResponsiveText.prototype.resizeText = function() {
@@ -51,6 +57,30 @@
         return delayedAdjust[_this.index] = setTimeout(function() {
           return _this.resizeText();
         }, 20);
+      });
+    };
+
+    ResponsiveText.prototype.scrollOnHover = function() {
+      var _this = this;
+      $(this.el).css({
+        'overflow': 'hidden',
+        'text-overflow': 'ellipsis',
+        'white-space': 'nowrap'
+      });
+      return $(this.el).hover((function() {
+        _this.difference = _this.el.scrollWidth - $(_this.el).width();
+        if (_this.difference > _this.scrollSpeed) {
+          _this.scrollSpeed = _this.difference;
+        }
+        if (_this.difference > 0) {
+          return $(_this.el).stop().animate({
+            "text-indent": -_this.difference
+          }, _this.scrollSpeed);
+        }
+      }), function() {
+        return $(_this.el).stop().animate({
+          "text-indent": 0
+        }, _this.scrollReset);
       });
     };
 

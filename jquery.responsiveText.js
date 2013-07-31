@@ -65,20 +65,22 @@
       $(this.el).css({
         'overflow': 'hidden',
         'text-overflow': 'ellipsis',
-        'white-space': 'nowrap',
-        'cursor': 'e-resize'
+        'white-space': 'nowrap'
       });
-      return $(this.el).hover((function() {
+      return $(this.el).hover(function() {
         _this.difference = _this.el.scrollWidth - $(_this.el).width();
         if (_this.difference > _this.scrollSpeed) {
           _this.scrollSpeed = _this.difference;
         }
         if (_this.difference > 0) {
+          $(_this.el).css('cursor', 'e-resize');
           return $(_this.el).stop().animate({
             "text-indent": -_this.difference
-          }, _this.scrollSpeed);
+          }, _this.scrollSpeed, function() {
+            return $(_this.el).css('cursor', 'text');
+          });
         }
-      }), function() {
+      }, function() {
         return $(_this.el).stop().animate({
           "text-indent": 0
         }, _this.scrollReset);

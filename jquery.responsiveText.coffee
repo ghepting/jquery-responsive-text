@@ -49,15 +49,17 @@ class ResponsiveText
       'overflow': 'hidden'
       'text-overflow': 'ellipsis'
       'white-space': 'nowrap'
-      'cursor': 'e-resize'
-    $(@el).hover (=>
+    $(@el).hover =>
       @difference = @el.scrollWidth - $(@el).width()
       @scrollSpeed = @difference if @difference > @scrollSpeed
       if @difference > 0
+        $(@el).css('cursor', 'e-resize')
         $(@el).stop().animate
           "text-indent": -@difference
         , @scrollSpeed
-    ), =>
+        , =>
+          $(@el).css('cursor', 'text')
+    , =>
       $(@el).stop().animate
         "text-indent": 0
       , @scrollReset

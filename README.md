@@ -4,7 +4,7 @@ jQuery responsiveText
 
 A jQuery plugin to set font sizes responsively based on its' container width. Use *jQuery responsiveText* to have scalable headlines, build [responsive tables](https://github.com/ghepting/jquery-responsive-tables) and more!
 
-View the demo at http://garyhepting.com/responsiveText
+View the demo at [http://garyhepting.com/jquery-responsive-text]
 
 
 Installation:

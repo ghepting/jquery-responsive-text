@@ -74,6 +74,4 @@ class ResponsiveText
     @each ->
       responsiveTextElements.push( new ResponsiveText(@) )
 
-      # $el.css "font-size", Math.floor(Math.max(Math.min($el.width() / ($el.data('compression')), parseFloat($el.data('max'))), parseFloat($el.data('min'))))
-
 ) jQuery

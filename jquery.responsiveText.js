@@ -11,9 +11,9 @@
 
 
 (function() {
-  var ResponsiveText, delayedAdjust, responsiveTextIndex;
+  var ResponsiveText, delayedAdjustText, responsiveTextIndex;
 
-  delayedAdjust = [];
+  delayedAdjustText = [];
 
   responsiveTextIndex = 0;
 
@@ -21,17 +21,17 @@
     function ResponsiveText(el) {
       this.index = responsiveTextIndex++;
       this.el = el;
+      this.$el = $(el);
       this.compression = $(this.el).data('compression') || 10;
-      this.minFontSize = $(this.el).data('min') || Number.NEGATIVE_INFINITY;
-      this.maxFontSize = $(this.el).data('max') || Number.POSITIVE_INFINITY;
-      this.scrollable = $(this.el).data('scrollable') || false;
-      this.scrollSpeed = $(this.el).data('scrollspeed') || 650;
-      this.scrollReset = $(this.el).data('scrollreset') || 200;
+      this.minFontSize = this.$el.data('min') || Number.NEGATIVE_INFINITY;
+      this.maxFontSize = this.$el.data('max') || Number.POSITIVE_INFINITY;
+      this.scrollable = this.$el.data('scrollable') || false;
+      this.scrollSpeed = this.$el.data('scrollspeed') || 650;
+      this.scrollReset = this.$el.data('scrollreset') || 200;
       this.init();
     }
 
     ResponsiveText.prototype.init = function() {
-      $(this.el).wrapInner('<span class="responsiveText-wrapper" />');
       this.adjustOnLoad();
       this.adjustOnResize();
       if (this.scrollable) {
@@ -40,7 +40,16 @@
     };
 
     ResponsiveText.prototype.resizeText = function() {
-      return $(this.el).css("font-size", Math.floor(Math.max(Math.min($(this.el).width() / this.compression, this.maxFontSize), this.minFontSize)));
+      this.$el.css('font-size', '');
+      this.$copy = this.$el.clone();
+      this.$copy.wrapInner('<span class="responsiveText-wrapper" style="white-space: nowrap;" />');
+      this.$el.before(this.$copy);
+      this.originalWidth = this.$copy.find('.responsiveText-wrapper').width();
+      this.$copy.remove();
+      this.containerWidth = this.$el.width();
+      this.ratio = this.containerWidth / this.originalWidth;
+      this.fontSize = parseInt(this.$el.css('font-size')) * this.ratio - 1;
+      return this.$el.css("font-size", Math.floor(Math.max(Math.min(this.fontSize, this.maxFontSize), this.minFontSize)));
     };
 
     ResponsiveText.prototype.adjustOnLoad = function() {
@@ -53,8 +62,8 @@
     ResponsiveText.prototype.adjustOnResize = function() {
       var _this = this;
       return $(window).on('resize', function() {
-        clearTimeout(delayedAdjust[_this.index]);
-        return delayedAdjust[_this.index] = setTimeout(function() {
+        clearTimeout(delayedAdjustText[_this.index]);
+        return delayedAdjustText[_this.index] = setTimeout(function() {
           return _this.resizeText();
         }, 20);
       });
@@ -62,26 +71,26 @@
 
     ResponsiveText.prototype.scrollOnHover = function() {
       var _this = this;
-      $(this.el).css({
+      this.$el.css({
         'overflow': 'hidden',
         'text-overflow': 'ellipsis',
         'white-space': 'nowrap'
       });
-      return $(this.el).hover(function() {
-        _this.difference = _this.el.scrollWidth - $(_this.el).width();
+      return this.$el.hover(function() {
+        _this.difference = _this.el.scrollWidth - _this.$el.width();
         if (_this.difference > _this.scrollSpeed) {
           _this.scrollSpeed = _this.difference;
         }
         if (_this.difference > 0) {
-          $(_this.el).css('cursor', 'e-resize');
-          return $(_this.el).stop().animate({
+          _this.$el.css('cursor', 'e-resize');
+          return _this.$el.stop().animate({
             "text-indent": -_this.difference
           }, _this.scrollSpeed, function() {
-            return $(_this.el).css('cursor', 'text');
+            return _this.$el.css('cursor', 'text');
           });
         }
       }, function() {
-        return $(_this.el).stop().animate({
+        return _this.$el.stop().animate({
           "text-indent": 0
         }, _this.scrollReset);
       });
